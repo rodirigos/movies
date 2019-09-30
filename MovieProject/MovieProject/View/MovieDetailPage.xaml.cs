@@ -13,11 +13,10 @@ namespace MovieProject.View
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MovieDetailPage : ContentPage
     {
-        private UpcomingItemViewModel selected;
-        public MovieDetailPage()
+        public MovieDetailPage(UpcomingMovieDetailViewModel viewModel)
         {
             InitializeComponent();
-            BindingContext = selected = upcomingItemViewModel;
+            BindingContext = viewModel;
         }
     }
 }

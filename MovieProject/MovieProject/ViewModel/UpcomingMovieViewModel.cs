@@ -26,7 +26,7 @@ namespace MovieProject.ViewModel
             SearchMovieCommand = new Command(() => FilterMovies());
             OnApperingCommand = new AsyncCommand(async () => await GetUpcomingMovies());
             CallUpcomingMoviesCommand = new Command(async () => await GetUpcomingMovies());
-            MovieSelectCommand = new Command(async () => await OpenDetailMovie());
+            MovieSelectCommand = new Command<UpcomingItemViewModel>(async (model) => await OpenDetailMovie(model));
         }
 
         #region Properties
@@ -43,6 +43,8 @@ namespace MovieProject.ViewModel
                 SetValue(ref upcomingMovieLst, value, "UpcomingMovieLst");
             }
         }
+
+        public EventArgs SelectedItemArgs { get; set; }
 
         public UpcomingItemViewModel SelectedMovie { get; set; }
 
@@ -70,13 +72,14 @@ namespace MovieProject.ViewModel
 
         public void FilterMovies()
         {
-            var moviesFiltered = upcomingMovieLst.Where(c => c.Title.Contains(SearchText));
+            var moviesFiltered = upcomingMovieLst.Where(c => c.Title.ToLower().Contains(SearchText.ToLower()));
             UpcomingMovieLst = new ObservableCollection<UpcomingItemViewModel>(moviesFiltered);
         }
 
-        public async Task OpenDetailMovie()
+        public async Task OpenDetailMovie(UpcomingItemViewModel selected)
         {
-            await _pageService.PushAsync(new MovieDetailPage(SelectedMovie));
+            UpcomingMovieDetailViewModel viewmodel = await _movieService.GetMovieDetailAsync(selected.Id);
+            await _pageService.PushAsync(new MovieDetailPage(viewmodel));
         }
 
         #endregion

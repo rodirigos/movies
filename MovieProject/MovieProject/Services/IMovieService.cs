@@ -7,5 +7,6 @@ namespace MovieProject.Services
    public interface IMovieService
     {
         Task<List<UpcomingItemViewModel>> GetUpcomingMovieAsync(int page);
+        Task<UpcomingMovieDetailViewModel> GetMovieDetailAsync(int id);        
     }
 }

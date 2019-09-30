@@ -10,6 +10,7 @@ namespace MovieProject
         public static NavigationPage navigationPage;
         public App()
         {
+
             InitializeComponent();
             Startup.Init();
             navigationPage = new NavigationPage();

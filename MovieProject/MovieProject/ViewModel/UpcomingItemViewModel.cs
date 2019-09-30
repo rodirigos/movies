@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MovieProject.Util;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -12,7 +13,6 @@ namespace MovieProject.ViewModel
         private double vote_average;
         private DateTime release_date;
         private string poster_path;
-
 
         public int Id { 
             get
@@ -63,11 +63,11 @@ namespace MovieProject.ViewModel
             get { return Release_Date.ToString("dd/MM/yyyy"); }
         }
 
-        public string PosterPath
+        public string Poster_Path
         {
             get
             {
-                return poster_path;
+                return HttpHelpers.PosterUrl +  poster_path;
             }
             set
             {

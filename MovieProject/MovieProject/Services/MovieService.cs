@@ -30,6 +30,15 @@ namespace MovieProject.Services
             _mapper = mapper;
         }
 
+        public async Task<UpcomingMovieDetailViewModel> GetMovieDetailAsync(int id)
+        {
+            //https://api.themoviedb.org/3/movie/{movie_id}?api_key=<<api_key>>&language=en-US
+            string url = QueryHelpers.AddQueryString($"movie/{id}", HttpHelpers.MovieDetailQuery());
+            var responseString = await _client.GetStringAsync(url);
+            var movie = JsonConvert.DeserializeObject<UpcomingMovieDetailViewModel>(responseString);
+            return movie;
+        }
+
         public async Task<List<UpcomingItemViewModel>> GetUpcomingMovieAsync(int page)
         {
             string url = QueryHelpers.AddQueryString("movie/upcoming", HttpHelpers.MovieUpcomingQuery(page));
