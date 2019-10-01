@@ -20,26 +20,26 @@
         </b:EventHandlerBehavior>
     </ContentPage.Behaviors>
     <ContentPage.Content>
-        <StackLayout>
-            <SearchBar Text="{Binding SearchText}" Placeholder="Procurar"
+        <RelativeLayout VerticalOptions="FillAndExpand"
+                HorizontalOptions="FillAndExpand">
+            <StackLayout
+            RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=1}"
+            RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1}">
+                <SearchBar Text="{Binding SearchText}" Placeholder="Procurar"
                        SearchCommand="{Binding SearchMovieCommand}">
             </SearchBar>
-            <ListView ItemsSource="{Binding UpcomingMovieLst}"
+                <ListView ItemsSource="{Binding UpcomingMovieLst}"
                       HasUnevenRows="True"
-                      CachingStrategy="RecycleElement"
-                      SelectedItem="{Binding SelectedMovie}">
-                <ListView.Behaviors>
-                    <behavior:UnselectListView/>
-                    <!--<b:EventToCommandBehavior EventName="ItemTapped" Command="{Binding MovieSelectCommand}" EventArgsConverter="{StaticResource ItemTappedConverter}" />-->
-                    <b:EventHandlerBehavior EventName="ItemTapped">
-                        <b:InvokeCommandAction Command="{Binding Path=BindingContext.MovieSelectCommand, Source={x:Reference UpcomingListView}}"
+                      CachingStrategy="RecycleElement">
+                    <ListView.Behaviors>
+                        <behavior:UnselectListView/>
+                        <!--<b:EventToCommandBehavior EventName="ItemTapped" Command="{Binding MovieSelectCommand}" EventArgsConverter="{StaticResource ItemTappedConverter}" />-->
+                        <b:EventHandlerBehavior EventName="ItemTapped">
+                            <b:InvokeCommandAction Command="{Binding Path=BindingContext.MovieSelectCommand, Source={x:Reference UpcomingListView}}"
                                                Converter="{StaticResource ItemTappedConverter}" />
-                        
-                    </b:EventHandlerBehavior>
-                </ListView.Behaviors>
-            
-
-                <ListView.ItemTemplate>
+                        </b:EventHandlerBehavior>
+                    </ListView.Behaviors>
+                    <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
                             <Grid>
@@ -66,7 +66,13 @@
                                     <Label Margin="5" Text="{Binding ReleaseDateString}">
                                     </Label>
                                 </StackLayout>
-                                <Image Grid.Row="1" Grid.Column="1" Margin="0,0,0,10" Source="{Binding Poster_Path}"></Image>
+                                <Image Grid.Row="1" Grid.Column="1" Margin="0,0,0,10" >
+                                        <Image.Source>
+                                            <UriImageSource Uri="{Binding Poster_Path}" 
+			                                CacheValidity="5" 
+			                                CachingEnabled="true"/>         
+                                        </Image.Source>
+                                </Image>
                             </Grid>
                             
                         </ViewCell>
@@ -75,5 +81,18 @@
             </ListView>
             
         </StackLayout>
+            <StackLayout VerticalOptions="EndAndExpand"   RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=1}"
+            RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1}">
+                <StackLayout VerticalOptions="EndAndExpand" Orientation="Horizontal" Margin="0,0,0,10">
+                    <Button Text="Voltar" HorizontalOptions="Start"></Button>
+                    <Button Text="Proximo" HorizontalOptions="EndAndExpand"></Button>
+                </StackLayout>
+            </StackLayout>
+            <StackLayout
+                RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=1}"
+                RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1}">
+                
+            </StackLayout>
+        </RelativeLayout>
     </ContentPage.Content>
 </ContentPage>

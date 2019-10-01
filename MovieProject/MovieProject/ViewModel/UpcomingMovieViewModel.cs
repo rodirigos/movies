@@ -2,6 +2,7 @@
 using AutoMapper;
 using MovieProject.Model;
 using MovieProject.Services;
+using MovieProject.Util;
 using MovieProject.View;
 using System;
 using System.Collections.Generic;
@@ -27,16 +28,18 @@ namespace MovieProject.ViewModel
             OnApperingCommand = new AsyncCommand(async () => await GetUpcomingMovies());
             CallUpcomingMoviesCommand = new Command(async () => await GetUpcomingMovies());
             MovieSelectCommand = new Command<UpcomingItemViewModel>(async (model) => await OpenDetailMovie(model));
+            activePage = 1;
         }
 
         #region Properties
+        private ObservableCollection<UpcomingItemViewModel> PagedList;
 
         private ObservableCollection<UpcomingItemViewModel> upcomingMovieLst;
         public ObservableCollection<UpcomingItemViewModel> UpcomingMovieLst
         {
             get
             {
-                return upcomingMovieLst;
+                return
             }
             set
             {
@@ -44,13 +47,22 @@ namespace MovieProject.ViewModel
             }
         }
 
-        public EventArgs SelectedItemArgs { get; set; }
-
-        public UpcomingItemViewModel SelectedMovie { get; set; }
-
         public string TextWelcome { get; set; }
 
         public string SearchText { get; set; }
+
+        private int activePage;
+        public int ActivePage
+        {
+            get
+            {
+                return activePage;
+            }
+            set
+            {
+                SetValue(ref activePage, value, "ActivePage");
+            }
+        }
 
 
         #endregion
@@ -60,6 +72,8 @@ namespace MovieProject.ViewModel
         public ICommand CallUpcomingMoviesCommand { get; set; }
         public ICommand SearchMovieCommand { get; set; }
         public ICommand MovieSelectCommand { get; set; }
+        public ICommand SelectNextCommand { get; set; }
+        public ICommand SelectPreviousCommand { get; set; }
 
         #endregion
 
@@ -67,19 +81,39 @@ namespace MovieProject.ViewModel
 
         public async Task GetUpcomingMovies()
         {
-            UpcomingMovieLst = new ObservableCollection<UpcomingItemViewModel>(await _movieService.GetUpcomingMovieAsync(1));
+            PagedList = await _movieService.GetUpcomingMovieAsync(activePage);
+           // UpcomingMovieLst = new ObservableCollection<UpcomingItemViewModel>(PagedList);
         }
 
         public void FilterMovies()
         {
             var moviesFiltered = upcomingMovieLst.Where(c => c.Title.ToLower().Contains(SearchText.ToLower()));
             UpcomingMovieLst = new ObservableCollection<UpcomingItemViewModel>(moviesFiltered);
+
         }
 
         public async Task OpenDetailMovie(UpcomingItemViewModel selected)
         {
             UpcomingMovieDetailViewModel viewmodel = await _movieService.GetMovieDetailAsync(selected.Id);
             await _pageService.PushAsync(new MovieDetailPage(viewmodel));
+        }
+
+        public async Task SelectNext()
+        {
+            if (PagedList.TotalPages >= ActivePage)
+            {
+                ActivePage++;
+                await GetUpcomingMovies();
+            }
+        }
+
+        public async Task SelectPrevious()
+        {
+            if (ActivePage > 0)
+            {
+                ActivePage--;
+                await GetUpcomingMovies();
+            }
         }
 
         #endregion

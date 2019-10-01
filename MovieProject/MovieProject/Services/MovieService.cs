@@ -19,6 +19,7 @@ namespace MovieProject.Services
         private readonly ILogger<MovieService> _logger;
         private readonly HttpClient _client;
         private readonly IMapper _mapper;
+        private static int PAGE_SIZE = 20;
 
         public MovieService(ILogger<MovieService> logger, 
             IHttpClientFactory httpClientFactory,
@@ -34,18 +35,52 @@ namespace MovieProject.Services
         {
             //https://api.themoviedb.org/3/movie/{movie_id}?api_key=<<api_key>>&language=en-US
             string url = QueryHelpers.AddQueryString($"movie/{id}", HttpHelpers.MovieDetailQuery());
-            var responseString = await _client.GetStringAsync(url);
-            var movie = JsonConvert.DeserializeObject<UpcomingMovieDetailViewModel>(responseString);
-            return movie;
+            string responseString = "";
+            try
+            {
+                responseString = await _client.GetStringAsync(url);
+            }
+            catch (Exception e)
+            {
+
+                _logger.LogError(e.Message);
+            }
+         
+            if (responseString != null || responseString != "")
+            {
+                var movie = JsonConvert.DeserializeObject<UpcomingMovieDetailViewModel>(responseString);
+                return movie;
+            } else
+            {
+                return new UpcomingMovieDetailViewModel();
+            }
+           
+            
         }
 
-        public async Task<List<UpcomingItemViewModel>> GetUpcomingMovieAsync(int page)
+        public async Task<PagedList<UpcomingItemViewModel>> GetUpcomingMovieAsync(int page)
         {
             string url = QueryHelpers.AddQueryString("movie/upcoming", HttpHelpers.MovieUpcomingQuery(page));
-            var responseString = await _client.GetStringAsync(url);
-            var list = JsonConvert.DeserializeObject<UpcomingMovieToReceiveDTO>(responseString);
+            string responseString = "";
+            try
+            {
+               responseString = await _client.GetStringAsync(url);
+            }
+            catch (Exception e)
+            {
+
+                _logger.LogError(e.Message);
+            }
+            UpcomingMovieToReceiveDTO list = new UpcomingMovieToReceiveDTO();
+
+            if (responseString != "")
+            {
+                list = JsonConvert.DeserializeObject<UpcomingMovieToReceiveDTO>(responseString);
+            }
             List<UpcomingItemViewModel> converterdList = _mapper.Map<List<UpcomingItemViewModel>>(list.Results);
-            return converterdList;
+            PagedList<UpcomingItemViewModel> pagedList = new PagedList<UpcomingItemViewModel>(converterdList, list.Total_results, list.Page, PAGE_SIZE);
+           
+            return pagedList;
         }
 
 

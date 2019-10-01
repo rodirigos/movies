@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MovieProject.Model
 {
-    public class MovieDetail : BaseViewModel
+    public class MovieDetail 
     {
         public string backdrop_path { get; set; }
         public string genres { get; set; }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace MovieProject.Util
@@ -10,13 +11,15 @@ namespace MovieProject.Util
         public int TotalPages { get; set; }
         public int PageSize { get; set; }
         public int TotalCount { get; set; }
+
+        public ObservableCollection<T> Lista { get; set; }
         public PagedList(List<T> items, int count, int pageNumber, int pageSize)
         {
             TotalCount = count;
             PageSize = pageSize;
             CurrentPage = pageNumber;
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
-            this.AddRange(items);
+            Lista = new ObservableCollection<T>(items);
         }
 
         public static PagedList<T> Create(IQueryable<T> source,
