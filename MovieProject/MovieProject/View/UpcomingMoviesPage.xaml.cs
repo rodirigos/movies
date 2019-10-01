@@ -10,7 +10,7 @@ namespace MovieProject.View
         
         public UpcomingMoviesPage()
         {
-            InitializeComponent();
+            InitializeComponent();// Acho que eu sei o que eh
             BindingContext = Startup.ServiceProvider.GetService<UpcomingMovieViewModel>();
         }
     }

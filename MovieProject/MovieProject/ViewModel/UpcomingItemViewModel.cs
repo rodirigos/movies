@@ -7,7 +7,7 @@ namespace MovieProject.ViewModel
 {
     public class UpcomingItemViewModel : BaseViewModel
     {
-
+        
         private int id;
         private string title;
         private double vote_average;
