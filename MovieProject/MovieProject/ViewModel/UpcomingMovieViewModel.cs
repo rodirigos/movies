@@ -32,14 +32,14 @@ namespace MovieProject.ViewModel
         }
 
         #region Properties
-        private ObservableCollection<UpcomingItemViewModel> PagedList;
+        private PagedList<UpcomingItemViewModel> PagedList;
 
         private ObservableCollection<UpcomingItemViewModel> upcomingMovieLst;
         public ObservableCollection<UpcomingItemViewModel> UpcomingMovieLst
         {
             get
             {
-                return
+                return new ObservableCollection<UpcomingItemViewModel>(PagedList);
             }
             set
             {
