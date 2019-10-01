@@ -9,6 +9,7 @@ namespace MovieProject.Util
         public static string BaseApiUrl = "https://api.themoviedb.org/3/";
         public static string PosterUrl = " https://image.tmdb.org/t/p/w154";
         public static string BackDropUrl = "https://image.tmdb.org/t/p/w780";
+        public static int TotalPages;
         public static Dictionary<string, string> MovieUpcomingQuery(int page)
         {
             var dictionary = new Dictionary<string, string>();

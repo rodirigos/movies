@@ -103,10 +103,6 @@
                     <Image Source="{Binding backdrop_path_formatted}"></Image>
                 </StackLayout>
 
-
-
-
-
             </Grid>
         </StackLayout>
     </ContentPage.Content>

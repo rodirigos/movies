@@ -33,8 +33,18 @@ namespace MovieProject.Services
         public async Task<UpcomingMovieDetailViewModel> GetMovieDetailAsync(int id)
         {
             //https://api.themoviedb.org/3/movie/{movie_id}?api_key=<<api_key>>&language=en-US
+
             string url = QueryHelpers.AddQueryString($"movie/{id}", HttpHelpers.MovieDetailQuery());
-            var responseString = await _client.GetStringAsync(url);
+            var responseString = "";
+            try
+            {
+                responseString = await _client.GetStringAsync(url);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+            }
+            
             var movie = JsonConvert.DeserializeObject<UpcomingMovieDetailViewModel>(responseString);
             return movie;
         }
@@ -42,8 +52,18 @@ namespace MovieProject.Services
         public async Task<List<UpcomingItemViewModel>> GetUpcomingMovieAsync(int page)
         {
             string url = QueryHelpers.AddQueryString("movie/upcoming", HttpHelpers.MovieUpcomingQuery(page));
-            var responseString = await _client.GetStringAsync(url);
+            string responseString ="";
+            try
+            {
+                responseString = await _client.GetStringAsync(url);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+            }
+
             var list = JsonConvert.DeserializeObject<UpcomingMovieToReceiveDTO>(responseString);
+            HttpHelpers.TotalPages = list.Total_pages;
             List<UpcomingItemViewModel> converterdList = _mapper.Map<List<UpcomingItemViewModel>>(list.Results);
             return converterdList;
         }

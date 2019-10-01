@@ -20,7 +20,10 @@
         </b:EventHandlerBehavior>
     </ContentPage.Behaviors>
     <ContentPage.Content>
-        <StackLayout>
+        <RelativeLayout>
+            <StackLayout  
+                RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=1}"
+                RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1}">
             <SearchBar Text="{Binding SearchText}" Placeholder="Procurar"
                        SearchCommand="{Binding SearchMovieCommand}">
             </SearchBar>
@@ -34,11 +37,9 @@
                     <b:EventHandlerBehavior EventName="ItemTapped">
                         <b:InvokeCommandAction Command="{Binding Path=BindingContext.MovieSelectCommand, Source={x:Reference UpcomingListView}}"
                                                Converter="{StaticResource ItemTappedConverter}" />
-                        
+
                     </b:EventHandlerBehavior>
                 </ListView.Behaviors>
-            
-
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
@@ -75,5 +76,14 @@
             </ListView>
             
         </StackLayout>
+            <StackLayout 
+                RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=1}"
+                RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1}" 
+                Orientation="Horizontal" 
+                VerticalOptions="EndAndExpand">
+                <Button Margin="10" Command="{Binding SelectPreviousCommand}" HorizontalOptions="Start" Text="Voltar"></Button>
+                <Button Margin="10" Command="{Binding SelectNextCommand}" HorizontalOptions="EndAndExpand" Text="Proximo"></Button>
+            </StackLayout>
+        </RelativeLayout>
     </ContentPage.Content>
 </ContentPage>
