@@ -26,6 +26,7 @@ namespace MovieProject.ViewModel
             SelectNextCommand = new Command(async () => await SelectNext());
             SelectPreviousCommand = new Command(async () => await SelectPrevious());
             activePage = 1;
+            Loading = true;
         }
 
         #region Properties
@@ -81,6 +82,27 @@ namespace MovieProject.ViewModel
             }
         }
 
+        private bool loading;
+        public bool Loading
+        {
+            get
+            {
+                return loading;
+            }
+            set
+            {
+                SetValue(ref loading, value, "Loading");
+                OnPropertyChanged("ListViewVisibility");
+            }
+        }
+
+        public bool ListViewVisibility
+        {
+            get
+            {
+                return !loading;
+            }
+        }
 
         private bool filtered;
         public bool Filtered
@@ -112,7 +134,9 @@ namespace MovieProject.ViewModel
         #region Function
         public async Task GetUpcomingMovies()
         {
+            Loading = true;
             UpcomingMovieLst = new ObservableCollection<UpcomingItemViewModel>(await _movieService.GetUpcomingMovieAsync(activePage));
+            Loading = false;
         }
 
     

@@ -21,60 +21,70 @@
     </ContentPage.Behaviors>
     <ContentPage.Content>
         <RelativeLayout>
-            <StackLayout  
+            <StackLayout 
                 RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=1}"
                 RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1}">
             <SearchBar Text="{Binding SearchText}" Placeholder="Procurar">
             </SearchBar>
-            <ListView ItemsSource="{Binding UpcomingMovieLst}"
-                      HasUnevenRows="True"
-                      CachingStrategy="RecycleElement"
-                      SelectedItem="{Binding SelectedMovie}">
-                <ListView.Behaviors>
-                    <behavior:UnselectListView/>
-                    <!--<b:EventToCommandBehavior EventName="ItemTapped" Command="{Binding MovieSelectCommand}" EventArgsConverter="{StaticResource ItemTappedConverter}" />-->
-                    <b:EventHandlerBehavior EventName="ItemTapped">
-                        <b:InvokeCommandAction Command="{Binding Path=BindingContext.MovieSelectCommand, Source={x:Reference UpcomingListView}}"
-                                               Converter="{StaticResource ItemTappedConverter}" />
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <ListView
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        ItemsSource="{Binding UpcomingMovieLst}"
+                          HasUnevenRows="True"
+                          CachingStrategy="RecycleElement"
+                          SelectedItem="{Binding SelectedMovie}">
+                        <ListView.Behaviors>
+                            <behavior:UnselectListView/>
+                            <!--<b:EventToCommandBehavior EventName="ItemTapped" Command="{Binding MovieSelectCommand}" EventArgsConverter="{StaticResource ItemTappedConverter}" />-->
+                            <b:EventHandlerBehavior EventName="ItemTapped">
+                                <b:InvokeCommandAction Command="{Binding Path=BindingContext.MovieSelectCommand, Source={x:Reference UpcomingListView}}"
+                                                   Converter="{StaticResource ItemTappedConverter}" />
 
-                    </b:EventHandlerBehavior>
-                </ListView.Behaviors>
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="25"/>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
-                              
-                                <StackLayout
-                                    Margin="10,10,0,10"
-                                    Grid.Row="0"
-                                    Grid.Column="0"
-                                    BackgroundColor="AliceBlue">
-                                    <Label
-                                    Text="{Binding Title}"
-                                    TextColor="Black">
-                                    </Label>
-                                </StackLayout>
-                                <StackLayout Margin="10,0,10,0" Grid.Row="0" Grid.Column="1">
-                                    <Label Margin="5" HorizontalOptions="EndAndExpand" Text="{Binding Vote_Average}">
-                                    </Label>
-                                </StackLayout>
-                                <StackLayout Margin="10" VerticalOptions="EndAndExpand" Grid.Row="1" Grid.Column="0">
-                                    <Label Margin="5" Text="{Binding ReleaseDateString}">
-                                    </Label>
-                                </StackLayout>
-                                <Image Grid.Row="1" Grid.Column="1" Margin="0,0,0,10" Source="{Binding Poster_Path}"></Image>
-                            </Grid>
-                            
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-            
-        </StackLayout>
+                            </b:EventHandlerBehavior>
+                        </ListView.Behaviors>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="25"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+
+                                        <StackLayout
+                                        Margin="10,10,0,10"
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        BackgroundColor="AliceBlue">
+                                            <Label
+                                        Text="{Binding Title}"
+                                        TextColor="Black">
+                                            </Label>
+                                        </StackLayout>
+                                        <StackLayout Margin="10,0,10,0" Grid.Row="0" Grid.Column="1">
+                                            <Label Margin="5" HorizontalOptions="EndAndExpand" Text="{Binding Vote_Average}">
+                                            </Label>
+                                        </StackLayout>
+                                        <StackLayout Margin="10" VerticalOptions="EndAndExpand" Grid.Row="1" Grid.Column="0">
+                                            <Label Margin="5" Text="{Binding ReleaseDateString}">
+                                            </Label>
+                                        </StackLayout>
+                                        <Image Grid.Row="1" Grid.Column="1" Margin="0,0,0,10" Source="{Binding Poster_Path}"></Image>
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <StackLayout Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" IsVisible="{Binding Loading}">
+                        <ProgressBar IsVisible="True" IsEnabled="true" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"/>
+                    </StackLayout>
+                </Grid>
+            </StackLayout>
             <StackLayout 
                 RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=1}"
                 RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1}" 
@@ -83,6 +93,21 @@
                 <Button Margin="10" Command="{Binding SelectPreviousCommand}" HorizontalOptions="Start" Text="Voltar"></Button>
                 <Button Margin="10" Command="{Binding SelectNextCommand}" HorizontalOptions="EndAndExpand" Text="Proximo"></Button>
             </StackLayout>
+            <StackLayout 
+                RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=1}"
+                RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1}"  
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="CenterAndExpand"
+                IsVisible="{Binding Loading}">
+                <ActivityIndicator 
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="CenterAndExpand"
+                    IsRunning="True"
+                    IsEnabled="True" IsVisible="True"
+                    HeightRequest="100" WidthRequest="100"></ActivityIndicator>
+            </StackLayout>
+
+
         </RelativeLayout>
     </ContentPage.Content>
 </ContentPage>
