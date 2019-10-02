@@ -67,7 +67,5 @@ namespace MovieProject.Services
             List<UpcomingItemViewModel> converterdList = _mapper.Map<List<UpcomingItemViewModel>>(list.Results);
             return converterdList;
         }
-
-
     }
 }

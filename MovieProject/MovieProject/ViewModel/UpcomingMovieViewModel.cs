@@ -20,7 +20,6 @@ namespace MovieProject.ViewModel
         {
             _pageService = pageService;
             _movieService = movieService;
-            SearchMovieCommand = new Command(() => FilterMovies());
             OnApperingCommand = new AsyncCommand(async () => await GetUpcomingMovies());
             CallUpcomingMoviesCommand = new Command(async () => await GetUpcomingMovies());
             MovieSelectCommand = new Command<UpcomingItemViewModel>(async (model) => await OpenDetailMovie(model));
@@ -36,6 +35,11 @@ namespace MovieProject.ViewModel
         {
             get
             {
+                if (Filtered)
+                {
+                    return new ObservableCollection<UpcomingItemViewModel>(upcomingMovieLst.Where(c => c.Title.ToLower().Contains(SearchText.ToLower())));
+                }
+
                 return upcomingMovieLst;
             }
             set
@@ -63,7 +67,34 @@ namespace MovieProject.ViewModel
 
         public string TextWelcome { get; set; }
 
-        public string SearchText { get; set; }
+        public string searchText;
+        public string SearchText
+        {
+            get
+            {
+                return searchText;
+            }
+            set
+            {
+                SetValue(ref searchText, value, "Filtered");
+                Filtered = string.IsNullOrEmpty(SearchText) ? false : true;
+            }
+        }
+
+
+        private bool filtered;
+        public bool Filtered
+        {
+            get
+            {
+                return filtered;
+            }
+            set
+            {
+                SetValue(ref filtered, value, "Filtered");
+                OnPropertyChanged("UpcomingMovieLst");
+            }
+        }
 
         #endregion
 
@@ -84,11 +115,7 @@ namespace MovieProject.ViewModel
             UpcomingMovieLst = new ObservableCollection<UpcomingItemViewModel>(await _movieService.GetUpcomingMovieAsync(activePage));
         }
 
-        public void FilterMovies()
-        {
-            var moviesFiltered = upcomingMovieLst.Where(c => c.Title.ToLower().Contains(SearchText.ToLower()));
-            UpcomingMovieLst = new ObservableCollection<UpcomingItemViewModel>(moviesFiltered);
-        }
+    
 
         public async Task OpenDetailMovie(UpcomingItemViewModel selected)
         {

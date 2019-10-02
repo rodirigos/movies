@@ -24,8 +24,7 @@
             <StackLayout  
                 RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=1}"
                 RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=1}">
-            <SearchBar Text="{Binding SearchText}" Placeholder="Procurar"
-                       SearchCommand="{Binding SearchMovieCommand}">
+            <SearchBar Text="{Binding SearchText}" Placeholder="Procurar">
             </SearchBar>
             <ListView ItemsSource="{Binding UpcomingMovieLst}"
                       HasUnevenRows="True"

@@ -11,10 +11,13 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="150"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="20"/>
+
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <StackLayout Grid.ColumnSpan="2"
@@ -32,75 +35,97 @@
                              Grid.Row="1"
                              Grid.Column="0"
                              Grid.ColumnSpan="2"
-                             Margin="10">
-                    <Label FontSize="Small" 
+                             Margin="10,0,10,0">
+                    <Editor 
+                        HeightRequest="150"
+                        IsEnabled="False"
+                        FontSize="Small" 
                         Text="{Binding overview}">
-                    </Label>
+                    </Editor>
                 </StackLayout>
 
-                <StackLayout  
-                             Grid.Row="2"
-                             Grid.Column="0"
-                             Margin="10"
+                <Label  
+                    FontSize="Small" 
+                    Text="Budget: "
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Margin="10,0,10,0"
                     HorizontalOptions="CenterAndExpand">
-                    <Label FontSize="Small" 
-                        Text="Budget: ">
-                    </Label>
-                </StackLayout>
-                <StackLayout  
+                </Label>
+                <Label 
+                    FontSize="Small" 
                     HorizontalOptions="CenterAndExpand"
-                             Grid.Row="2"
-                             Grid.Column="1"
-                             Margin="10">
-                    <Label FontSize="Small" 
-                        Text="{Binding budget}">
-                    </Label>
-                </StackLayout>
-
-                <StackLayout  
-                             Grid.Row="3"
-                             Grid.Column="0"
-                             Margin="10"
-                    HorizontalOptions="CenterAndExpand">
-                    <Label FontSize="Small" 
-                        Text="Revenue: ">
-                    </Label>
-                </StackLayout>
-                <StackLayout  
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Margin="10"
+                    Text="{Binding budgetToString}">
+                </Label>
+                <Label
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Margin="10,0,10,0"
                     HorizontalOptions="CenterAndExpand"
-                             Grid.Row="3"
-                             Grid.Column="1"
-                             Margin="10">
-                    <Label FontSize="Small" 
-                        Text="{Binding revenue}">
-                    </Label>
-                </StackLayout>
-
-                <StackLayout  
-                             Grid.Row="4"
-                             Grid.Column="0"
-                             Margin="10"
-                    HorizontalOptions="CenterAndExpand">
-                    <Label FontSize="Small" 
-                        Text="Release date: ">
-                    </Label>
-                </StackLayout>
-                <StackLayout  
+                    FontSize="Small" 
+                    Text="Revenue: ">
+                </Label>
+                <Label
                     HorizontalOptions="CenterAndExpand"
-                             Grid.Row="4"
-                             Grid.Column="1"
-                             Margin="10">
-                    <Label FontSize="Small" 
-                        Text="{Binding release_date_formatted}">
-                    </Label>
-                </StackLayout>
-
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Margin="10,0,10,0"
+                    FontSize="Small" 
+                    Text="{Binding revenue}">
+                </Label>
+                <Label
+                    Grid.Row="4"
+                    Grid.Column="0"
+                    Margin="10,0,10,0"
+                    HorizontalOptions="CenterAndExpand"
+                    FontSize="Small" 
+                    Text="Release date: ">
+                </Label>
+                <Label 
+                    HorizontalOptions="CenterAndExpand"
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    Margin="10,0,10,0"
+                    FontSize="Small" 
+                    Text="{Binding release_date_formatted}">
+                </Label>
+                <Label
+                    Margin="10,0,10,0"
+                    HorizontalOptions="CenterAndExpand"
+                    Grid.Row="5"
+                    Grid.Column="0"
+                    Text="Genre">
+                </Label>
+                <Label
+                    Margin="10,0,10,0"
+                    HorizontalOptions="CenterAndExpand"
+                    Grid.Row="5"
+                    Grid.Column="1"
+                    Text="{Binding genresToString}">
+                </Label>
+                <Label
+                    Margin="10,0,10,0"
+                    HorizontalOptions="CenterAndExpand"
+                    Grid.Row="6"
+                    Grid.Column="0"
+                    Text="Votes Average">
+                </Label>
+                <Label
+                    Margin="10,0,10,0"
+                    HorizontalOptions="CenterAndExpand"
+                    Grid.Row="6"
+                    Grid.Column="1"
+                    Text="{Binding vote_averageToString}">
+                </Label>
                 <StackLayout  
                     HorizontalOptions="FillAndExpand"
-                             Grid.Row="5"
-                             Grid.Column="0"
+                    Grid.Row="2"
+                    Grid.Column="0"
                     Grid.ColumnSpan="2" >
-                    <Image Source="{Binding backdrop_path_formatted}"></Image>
+                    <Image Opacity="0.2" Source="{Binding backdrop_path_formatted}"></Image>
                 </StackLayout>
 
             </Grid>

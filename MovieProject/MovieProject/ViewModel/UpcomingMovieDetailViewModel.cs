@@ -20,12 +20,32 @@ namespace MovieProject.ViewModel
                 return HttpHelpers.BackDropUrl + backdrop_path;
             } 
         }
-        public List<Genre> genres { get; set; }
+        public List<Genre> genres;
+
+        public string genresToString
+        {
+            get
+            {
+                string str= "";
+                foreach (var item in genres)
+                {
+                    str += item.Name + " ";
+                }
+                return str;
+            }
+        }
         public string title { get; set; }
         public string overview { get; set; }
-        public double vote_average { get; set; }
+        public double vote_average;
+        public string vote_averageToString
+        {
+            get
+            {
+                return vote_average.ToString();
+            }
+        }
         public string runtime { get; set; }
-        public DateTime release_date { get; set; }
+        public DateTime release_date;
 
         public string release_date_formatted
         {
@@ -36,6 +56,13 @@ namespace MovieProject.ViewModel
             }
         }
         public double budget { get; set; }
+        public string budgetToString
+        {
+            get
+            {
+                return budget.ToString();
+            }
+        }
         public double revenue { get; set; }
     
     }
